@@ -1,0 +1,47 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build_debug",
+            "type": "shell",
+            "command": "${workspaceFolder}/start/scripts/create_package.sh Debug", 
+            "options": {
+                "cwd": "${workspaceFolder}/start"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "windows": {
+                "command": "${workspaceFolder}/start/scripts/create_package.bat"
+            }
+        },
+        {
+            "label": "build_release",
+            "type": "shell",
+            "command": "${workspaceFolder}/start/scripts/create_package.sh Release", 
+            "options": {
+                "cwd": "${workspaceFolder}/start"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "windows": {
+                "command": "${workspaceFolder}/start/scripts/create_package.bat"
+            }
+        },
+        {
+            "label": "format_code",
+            "type": "shell",
+            "command": "${workspaceFolder}/start/scripts/format_code.sh", 
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "DEBUG",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/start/build/main/Start",
+            "args": [
+                "--create",
+                "--width",
+                "20"
+            ],
+            "cwd": "${workspaceFolder}/start",
+            "preLaunchTask": "build_debug"
+        },
+        {
+            "name": "DEBUG_WIN",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/start/build/main/Start.exe",
+            "args": [
+                "--create",
+                "--width",
+                "20"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/start",
+            "preLaunchTask": "build_debug"
+        }
+    ]
+}
