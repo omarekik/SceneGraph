@@ -56,7 +56,7 @@ namespace sng
         matrix4 localTransformation;
         matrix4 globalTransformation;
         SceneNode* parent = nullptr;  // Pointer to parent node
-        std::unordered_set<SceneNode*> children {};  
+        std::unordered_set<SceneNode*> children{};
         ISceneGraph* sceneGraph;
     };
 

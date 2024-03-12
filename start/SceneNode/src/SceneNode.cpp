@@ -38,10 +38,10 @@ namespace sng
             childrenMutex.unlock();
             parentMutex.unlock();
         }
-        ThreadGuardImpl(const ThreadGuardImpl &) = delete;
-        ThreadGuardImpl & operator=(const ThreadGuardImpl &) = delete;
-        ThreadGuardImpl (ThreadGuardImpl &&) = delete;
-        ThreadGuardImpl & operator=(ThreadGuardImpl &&) = delete;
+        ThreadGuardImpl(const ThreadGuardImpl&) = delete;
+        ThreadGuardImpl& operator=(const ThreadGuardImpl&) = delete;
+        ThreadGuardImpl(ThreadGuardImpl&&) = delete;
+        ThreadGuardImpl& operator=(ThreadGuardImpl&&) = delete;
         std::shared_mutex localTransformationMutex;
         std::shared_mutex globalTransformationMutex;
         std::mutex nameMutex;

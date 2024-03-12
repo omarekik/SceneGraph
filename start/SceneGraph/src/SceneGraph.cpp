@@ -6,7 +6,7 @@
 
 namespace sng
 {
-    void SceneGraph::addRoot(std::string root_name)
+    void SceneGraph::addRoot(const std::string& root_name)
     {
         if (root_name.empty() || !nameToNode.empty())
         {
@@ -26,7 +26,8 @@ namespace sng
         }
     }
 
-    void SceneGraph::addChild(std::string name_child, std::string name_parent)
+    void SceneGraph::addChild(const std::string& name_child,
+                              const std::string& name_parent)
     {
         if (nameToNode.empty())
         {

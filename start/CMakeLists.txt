@@ -18,5 +18,6 @@ enable_testing ()
 add_subdirectory(SceneNode)
 add_subdirectory(SceneGraph)
 add_subdirectory(Client)
+add_subdirectory(main)
 
-#install(TARGETS Start DESTINATION bin)
+install(TARGETS Start DESTINATION bin)

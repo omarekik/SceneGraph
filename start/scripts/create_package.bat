@@ -20,10 +20,7 @@ cmake --build . --config Release
 ctest .
 
 :: Print help message
-call main\Release\Start.exe -h
-
-:: Create a start
-call main\Release\Start.exe --create --width 10
+call main\Release\Start.exe 
 
 :: Return back from build folder to project folder
 cd ..

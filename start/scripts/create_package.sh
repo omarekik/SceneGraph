@@ -30,10 +30,7 @@ cmake --build . --config $build_type_argument
 ctest .
 
 # Print help message
-./main/Start -h 
-
-# Create a start
-./main/Start --create --width 10
+./main/Start 
 
 # Return back from build folder to project folder
 cd ..

@@ -15,6 +15,10 @@ namespace sng
         virtual void update(ISceneNode* observee) = 0;
         virtual void attachClient(IClient* observer) = 0;
         virtual void detachClient(IClient* observer) = 0;
+
+        virtual void addRoot(const std::string& root_name) = 0;
+        virtual void addChild(const std::string& name_child,
+                              const std::string& name_parent) = 0;
     };
 
     class SceneGraph final : public ISceneGraph
@@ -25,8 +29,9 @@ namespace sng
         std::list<IClient*> clients{};
 
        public:
-        void addRoot(std::string root_name);
-        void addChild(std::string name_child, std::string name_parent = "");
+        void addRoot(const std::string& root_name);
+        void addChild(const std::string& name_child,
+                      const std::string& name_parent);
         // TODO ReParent(nodeName, newParentName) and delete(NodeName)
         void render() const;
 
