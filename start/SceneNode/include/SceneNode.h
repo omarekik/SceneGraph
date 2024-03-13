@@ -28,8 +28,8 @@ namespace sng
         ~SceneNode() override;
         SceneNode(const SceneNode&) = delete;
         SceneNode& operator=(const SceneNode&) = delete;
-        SceneNode(SceneNode&&) = default;
-        SceneNode& operator=(SceneNode&&) = default;
+        SceneNode(SceneNode&&);
+        SceneNode& operator=(SceneNode&&);
 
         std::string getName() const override;
         std::unordered_set<SceneNode*> getChildren() const;
@@ -49,15 +49,14 @@ namespace sng
         matrix4 getGlobalTransformation() const;
 
        private:
-        struct ThreadGuardImpl;
-        std::unique_ptr<ThreadGuardImpl> pThreadGuardImpl;
-
         std::string name{};
         matrix4 localTransformation;
         matrix4 globalTransformation;
         SceneNode* parent = nullptr;  // Pointer to parent node
         std::unordered_set<SceneNode*> children{};
         ISceneGraph* sceneGraph;
+        struct ThreadGuardImpl;
+        std::unique_ptr<ThreadGuardImpl> pThreadGuardImpl;
     };
 
 }  // namespace sng

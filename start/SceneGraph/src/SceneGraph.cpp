@@ -17,8 +17,6 @@ namespace sng
         }
         else
         {
-            // std::pair<std::string, SceneNode&&> element {root_name,
-            // SceneNode(root_name, this)};
             auto [child_it, done] = nameToNode.emplace(
                 std::piecewise_construct, std::forward_as_tuple(root_name),
                 std::forward_as_tuple(root_name, this));
@@ -53,8 +51,6 @@ namespace sng
             }
             else
             {
-                // std::pair<std::string, SceneNode&&> element {name_child,
-                // SceneNode(name_child, this)};
                 auto [child_it, done] = nameToNode.emplace(
                     std::piecewise_construct, std::forward_as_tuple(name_child),
                     std::forward_as_tuple(name_child, this));

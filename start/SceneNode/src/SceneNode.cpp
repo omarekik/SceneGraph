@@ -52,13 +52,16 @@ namespace sng
     // Implementation of SceneNode methods
 
     SceneNode::SceneNode(const std::string& node_name, ISceneGraph* scene_graph)
-        : pThreadGuardImpl(std::make_unique<ThreadGuardImpl>()),
-          name(node_name),
+        : name(node_name),
           localTransformation(IDENTITY4),
           globalTransformation(IDENTITY4),
-          sceneGraph(scene_graph)
+          sceneGraph(scene_graph),
+          pThreadGuardImpl(std::make_unique<ThreadGuardImpl>())
     {
     }
+
+    SceneNode::SceneNode(SceneNode&&) = default;
+    SceneNode& SceneNode::operator=(SceneNode&&) = default;
 
     SceneNode::~SceneNode() = default;
 
