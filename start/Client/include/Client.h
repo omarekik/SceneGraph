@@ -17,7 +17,7 @@ class Client final : public IClient
     sng::ISceneGraph* sceneGraph;
 
    public:
-    explicit Client(std::string name, sng::ISceneGraph* scene_graph);
+    explicit Client(const std::string& name, sng::ISceneGraph* scene_graph);
     ~Client() override;
     Client(const Client&) noexcept = default;
     Client& operator=(const Client&) noexcept = default;

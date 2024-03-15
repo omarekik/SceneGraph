@@ -10,7 +10,7 @@ namespace sng
     constexpr matrix4 IDENTITY4{
         {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}};
 
-    constexpr matrix4 matrixMultiplication(const matrix4& A, const matrix4& B)
+    constexpr matrix4 matrix_multiplication(const matrix4& left, const matrix4& right)
     {
         matrix4 result;
         for (unsigned int i = 0; i < 4; ++i)
@@ -20,14 +20,14 @@ namespace sng
                 result[i][j] = 0;
                 for (unsigned int k = 0; k < 4; ++k)
                 {
-                    result[i][j] += A[i][k] * B[k][j];
+                    result[i][j] += left[i][k] * right[k][j];
                 }
             }
         }
         return result;
     }
 
-    struct SceneNode::ThreadGuardImpl
+    struct SceneNode::ThreadGuardImpl final
     {  // not copyable/movable as mutex member
         ThreadGuardImpl() = default;
         ~ThreadGuardImpl()
@@ -65,20 +65,20 @@ namespace sng
 
     SceneNode::~SceneNode() = default;
 
-    void SceneNode::setParent(SceneNode* newParent)
+    void SceneNode::setParent(SceneNode* new_parent)
     {
-        if (newParent)
+        if (new_parent != nullptr)
         {
             {
                 std::lock_guard lock(pThreadGuardImpl->parentMutex);
-                if (parent)
+                if (parent != nullptr)
                 {
                     parent->deleteChild(
                         this);  // Remove from the children of the old parent
                 }
-                parent = newParent;
+                parent = new_parent;
             }
-            newParent->addChild(this);  // Add to the children of the new parent
+            new_parent->addChild(this);  // Add to the children of the new parent
             notifySceneGraph();
         }
     }
@@ -101,11 +101,11 @@ namespace sng
         std::shared_lock global_lock(
             pThreadGuardImpl->globalTransformationMutex, std::defer_lock);
         std::scoped_lock lock(parent_lock, local_lock, global_lock);
-        if (parent)
+        if (parent != nullptr)
         {
-            matrix4 parentGlobal = parent->getGlobalTransformation();
+            matrix4 parent_global = parent->getGlobalTransformation();
             globalTransformation =
-                matrixMultiplication(parentGlobal, localTransformation);
+                matrix_multiplication(parent_global, localTransformation);
         }
         else
         {
@@ -113,23 +113,23 @@ namespace sng
         }
     }
 
-    void SceneNode::addChild(SceneNode* childNode)
+    void SceneNode::addChild(SceneNode* child_node)
     {
         {
             std::lock_guard<std::mutex> lock(pThreadGuardImpl->childrenMutex);
-            children.insert(childNode);
+            children.insert(child_node);
         }
         notifySceneGraph();
     }
 
-    void SceneNode::deleteChild(SceneNode* childNode)
+    void SceneNode::deleteChild(SceneNode* child_node)
     {
         {
             std::lock_guard<std::mutex> lock(pThreadGuardImpl->childrenMutex);
-            auto it = children.find(childNode);
-            if (it != children.end())
+            auto child_it = children.find(child_node);
+            if (child_it != children.end())
             {
-                children.erase(it);
+                children.erase(child_it);
             }
         }
         notifySceneGraph();
@@ -139,13 +139,13 @@ namespace sng
     {
         // Render using globalTransformation
         updateGlobalTransformation();
-        std::stringstream ss{};
-        ss << "Rendering Node: " << getName() << '\n';
+        std::stringstream string_stream{};
+        string_stream << "Rendering Node: " << getName() << '\n';
         for (const auto& child : getChildren())
         {
-            ss << child->render();
+            string_stream << child->render();
         }
-        return ss.str();
+        return string_stream.str();
     }
 
     matrix4 SceneNode::getGlobalTransformation() const

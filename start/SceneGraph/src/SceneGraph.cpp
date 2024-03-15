@@ -61,7 +61,7 @@ namespace sng
 
     void SceneGraph::render() const
     {
-        if (rootNode)
+        if (rootNode != nullptr)
         {
             std::osyncstream(std::cout) << rootNode->render();
         }
@@ -71,11 +71,11 @@ namespace sng
         }
     }
 
-    void SceneGraph::update(ISceneNode* node)
+    void SceneGraph::update(ISceneNode* observee)
     {
-        for (auto client : clients)
+        for (auto * client : clients)
         {
-            client->update(node);
+            client->update(observee);
         }
     }
 
@@ -86,10 +86,10 @@ namespace sng
 
     void SceneGraph::detachClient(IClient* observer)
     {
-        auto it = std::find(clients.begin(), clients.end(), observer);
-        if (it != clients.end())
+        auto client_it = std::find(clients.begin(), clients.end(), observer);
+        if (client_it != clients.end())
         {
-            clients.erase(it);
+            clients.erase(client_it);
         }
     }
 

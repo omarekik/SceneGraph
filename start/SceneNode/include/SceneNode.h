@@ -26,18 +26,18 @@ namespace sng
         explicit SceneNode(const std::string& node_name,
                            ISceneGraph* scene_graph);
         ~SceneNode() override;
-        SceneNode(const SceneNode&) = delete;
-        SceneNode& operator=(const SceneNode&) = delete;
-        SceneNode(SceneNode&&) noexcept;
-        SceneNode& operator=(SceneNode&&) noexcept;
+        SceneNode(const SceneNode& other) = delete;
+        SceneNode& operator=(const SceneNode& other) = delete;
+        SceneNode(SceneNode&& other) noexcept;
+        SceneNode& operator=(SceneNode&& other) noexcept;
 
         [[nodiscard]] std::string getName() const override;
         [[nodiscard]] std::unordered_set<SceneNode*> getChildren() const;
         void setName(const std::string& node_name);
-        void setParent(SceneNode* newParent);
+        void setParent(SceneNode* new_parent);
         void setLocalTransformation(const matrix4& transformation);
-        void addChild(SceneNode* childNode);
-        void deleteChild(SceneNode* childNode);
+        void addChild(SceneNode* child_node);
+        void deleteChild(SceneNode* child_node);
         [[nodiscard]] std::string render() override;
         // Custom comparison function comparing only the name attribute
         [[nodiscard]] bool operator==(const SceneNode& other) const;
@@ -48,7 +48,6 @@ namespace sng
         void updateGlobalTransformation();
         [[nodiscard]] matrix4 getGlobalTransformation() const;
 
-       private:
         std::string name{};
         matrix4 localTransformation;
         matrix4 globalTransformation;
