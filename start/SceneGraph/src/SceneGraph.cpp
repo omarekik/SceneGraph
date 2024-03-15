@@ -73,7 +73,7 @@ namespace sng
 
     void SceneGraph::update(ISceneNode* observee)
     {
-        for (auto * client : clients)
+        for (auto* client : clients)
         {
             client->update(observee);
         }

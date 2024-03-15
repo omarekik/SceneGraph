@@ -18,8 +18,8 @@ int main()
     client2.addChild("Child2_2", "Root1");
 
     // Trigger a transformation change from the first Client
-    //sng::matrix4 new_transformation {};
-    //scene_graph.getNode("Root1")->setLocalTransformation(new_transformation);
+    // sng::matrix4 new_transformation {};
+    // scene_graph.getNode("Root1")->setLocalTransformation(new_transformation);
 
     return 0;
 }

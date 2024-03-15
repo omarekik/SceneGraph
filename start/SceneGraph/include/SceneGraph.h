@@ -32,7 +32,8 @@ namespace sng
         void addRoot(const std::string& root_name) override;
         void addChild(const std::string& name_child,
                       const std::string& name_parent) override;
-        // TODO reParent(nodeName, newParentName), getNode(node_name) and delete(node_name) 
+        // TODO reParent(nodeName, newParentName), getNode(node_name) and
+        // delete(node_name)
         void render() const;
 
         void update(ISceneNode* observee) override;

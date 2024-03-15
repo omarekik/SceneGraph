@@ -10,7 +10,8 @@ namespace sng
     constexpr matrix4 IDENTITY4{
         {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}};
 
-    constexpr matrix4 matrix_multiplication(const matrix4& left, const matrix4& right)
+    constexpr matrix4 matrix_multiplication(const matrix4& left,
+                                            const matrix4& right)
     {
         matrix4 result;
         for (unsigned int i = 0; i < 4; ++i)
@@ -78,7 +79,8 @@ namespace sng
                 }
                 parent = new_parent;
             }
-            new_parent->addChild(this);  // Add to the children of the new parent
+            new_parent->addChild(
+                this);  // Add to the children of the new parent
             notifySceneGraph();
         }
     }

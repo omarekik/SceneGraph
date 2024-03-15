@@ -42,8 +42,8 @@ void Client::update(sng::ISceneNode* node)
 {
     std::stringstream string_stream{};
     string_stream << "Client " << name
-       << " is updating due to notification from SceneNode: " << node->getName()
-       << '\n';
+                  << " is updating due to notification from SceneNode: "
+                  << node->getName() << '\n';
     string_stream << node->render();
     std::osyncstream(std::cout) << string_stream.str();
 }
