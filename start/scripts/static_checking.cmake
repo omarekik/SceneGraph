@@ -15,10 +15,8 @@ function (set_clang_tidy_cmd cmd)
 
     set ( ${cmd}
             ${clang_tidy_tool};
-            -checks=cppcoreguidelines-*;
+            -config-file=${CMAKE_SOURCE_DIR}/../.clang-tidy;
             -p ${CMAKE_SOURCE_DIR}/build/compile_commands.json;
-            -header-filter=.;
-            -warnings-as-errors=*;
         PARENT_SCOPE
     )
 endfunction ( set_clang_tidy_cmd)

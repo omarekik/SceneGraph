@@ -60,8 +60,8 @@ namespace sng
     {
     }
 
-    SceneNode::SceneNode(SceneNode&&) = default;
-    SceneNode& SceneNode::operator=(SceneNode&&) = default;
+    SceneNode::SceneNode(SceneNode&&) noexcept = default;
+    SceneNode& SceneNode::operator=(SceneNode&&) noexcept = default;
 
     SceneNode::~SceneNode() = default;
 

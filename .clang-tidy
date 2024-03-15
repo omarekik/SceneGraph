@@ -1,0 +1,39 @@
+---
+Checks: "cppcoreguidelines-*,
+         "
+CheckOptions:
+WarningsAsErrors: '*'
+HeaderFilterRegex: '.'
+FormatStyle: none
+CheckOptions:
+# The rule of 5 is deviated in case of virtual default destructor of abstract class.
+# The next two lines should be at first commented to check that the only complain is 
+# about destructor of abstract class and that the rule can be deviated. Then, it can be 
+# uncommented.
+  - key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+    value: true 
+  - key: readability-identifier-naming.ClassCase
+    value: 'CamelCase'
+  - key: readability-identifier-naming.StructCase
+    value: 'CamelCase'
+  - key: readability-identifier-naming.EnumCase
+    value: 'CamelCase'
+  - key: readability-identifier-naming.GlobalConstantCase
+    value: 'UPPER_CASE'
+  - key: readability-identifier-naming.NamespaceCase
+    value: 'lower_case'
+  - key: readability-identifier-naming.VariableCase
+    value: 'lower_case'
+  - key: readability-identifier-naming.FunctionCase
+    value: 'lower_case'
+  - key: readability-identifier-naming.ParameterCase
+    value: 'lower_case'
+  - key: readability-identifier-naming.MemberCase
+    value: 'camelBack'
+  - key: readability-identifier-naming.MethodCase
+    value: 'camelBack'
+  - key: readability-identifier-naming.ConstantCase
+    value: 'UPPER_CASE'
+  - key: readability-identifier-naming.EnumConstantCase
+    value: 'UPPER_CASE'
+...

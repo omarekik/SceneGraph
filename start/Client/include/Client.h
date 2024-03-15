@@ -19,10 +19,10 @@ class Client final : public IClient
    public:
     explicit Client(std::string name, sng::ISceneGraph* scene_graph);
     ~Client() override;
-    Client(const Client&) = default;
-    Client& operator=(const Client&) = default;
-    Client(Client&&) = default;
-    Client& operator=(Client&&) = default;
+    Client(const Client&) noexcept = default;
+    Client& operator=(const Client&) noexcept = default;
+    Client(Client&&) noexcept = default;
+    Client& operator=(Client&&) noexcept = default;
 
     void addRoot(const std::string& root_name);
     void addChild(const std::string& name_child,

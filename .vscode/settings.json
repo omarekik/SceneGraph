@@ -57,7 +57,17 @@
         "streambuf": "cpp",
         "syncstream": "cpp",
         "thread": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "cstring": "cpp",
+        "any": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "optional": "cpp",
+        "source_location": "cpp",
+        "iomanip": "cpp",
+        "span": "cpp",
+        "cinttypes": "cpp",
+        "variant": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

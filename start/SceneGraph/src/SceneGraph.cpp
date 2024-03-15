@@ -63,7 +63,7 @@ namespace sng
     {
         if (rootNode)
         {
-            rootNode->render();
+            std::osyncstream(std::cout) << rootNode->render();
         }
         else
         {

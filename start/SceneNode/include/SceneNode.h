@@ -14,8 +14,8 @@ namespace sng
     {
        public:
         virtual ~ISceneNode() = default;
-        virtual std::string getName() const = 0;
-        virtual std::string render() = 0;
+        [[nodiscard]] virtual std::string getName() const = 0;
+        [[nodiscard]] virtual std::string render() = 0;
     };
 
     class ISceneGraph;
@@ -28,25 +28,25 @@ namespace sng
         ~SceneNode() override;
         SceneNode(const SceneNode&) = delete;
         SceneNode& operator=(const SceneNode&) = delete;
-        SceneNode(SceneNode&&);
-        SceneNode& operator=(SceneNode&&);
+        SceneNode(SceneNode&&) noexcept;
+        SceneNode& operator=(SceneNode&&) noexcept;
 
-        std::string getName() const override;
-        std::unordered_set<SceneNode*> getChildren() const;
+        [[nodiscard]] std::string getName() const override;
+        [[nodiscard]] std::unordered_set<SceneNode*> getChildren() const;
         void setName(const std::string& node_name);
         void setParent(SceneNode* newParent);
         void setLocalTransformation(const matrix4& transformation);
         void addChild(SceneNode* childNode);
         void deleteChild(SceneNode* childNode);
-        std::string render() override;
+        [[nodiscard]] std::string render() override;
         // Custom comparison function comparing only the name attribute
-        bool operator==(const SceneNode& other) const;
+        [[nodiscard]] bool operator==(const SceneNode& other) const;
         // Observer pattern methods
         void notifySceneGraph();
 
        private:
         void updateGlobalTransformation();
-        matrix4 getGlobalTransformation() const;
+        [[nodiscard]] matrix4 getGlobalTransformation() const;
 
        private:
         std::string name{};

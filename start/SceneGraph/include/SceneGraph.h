@@ -29,9 +29,9 @@ namespace sng
         std::list<IClient*> clients{};
 
        public:
-        void addRoot(const std::string& root_name);
+        void addRoot(const std::string& root_name) override;
         void addChild(const std::string& name_child,
-                      const std::string& name_parent);
+                      const std::string& name_parent) override;
         // TODO ReParent(nodeName, newParentName) and delete(NodeName)
         void render() const;
 

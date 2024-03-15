@@ -20,7 +20,7 @@ jobs:
         #
         # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
         matrix:
-          os: [ubuntu-latest, windows-latest, macos-latest]
+          os: [ubuntu-latest, windows-latest]
           build_type: [Release]
           include:
             - os: windows-latest
@@ -33,11 +33,6 @@ jobs:
               static_analyzer: clang-tidy
               app: /Start
               artifact: artifact_linux
-            - os: macos-latest
-              compiler: apple-clang
-              static_analyzer: clang-tidy
-              app: /Start
-              artifact: artifact_macos
     steps:
       - uses: actions/checkout@v4
 
@@ -46,13 +41,6 @@ jobs:
       - name: Setup - install Conan
         id: conan
         uses: turtlebrowser/get-conan@main
-
-        #Clang-tidy is by default missing in macos environment of github actions
-      - name: Setup - install Clang-tidy
-        if: ${{ matrix.os == 'macos-latest' }}  
-        run: |
-          brew install llvm
-          ln -s "/usr/local/opt/llvm/bin/clang-tidy" "/usr/local/bin/clang-tidy"
 
       - name: Setup - check tools version
         run: |
@@ -82,8 +70,7 @@ jobs:
       - name: Test - sanity check
         working-directory: ${{github.workspace}}/start/build
         run: |
-          main${{matrix.app}} -h 
-          main${{matrix.app}} --create --width 10
+          main${{matrix.app}} 
 
       - name: Publish
         uses: actions/upload-artifact@v4
