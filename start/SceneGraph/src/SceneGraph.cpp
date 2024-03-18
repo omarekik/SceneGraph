@@ -24,25 +24,29 @@ namespace sng
         std::mutex rootNodeMutex;
         std::mutex clientsMutex;
     };
-    SceneGraph::SceneGraph() = default;
+    SceneGraph::SceneGraph()
+        : pThreadGuardImpl(std::make_unique<ThreadGuardImpl>())
+    {
+    }
     SceneGraph::~SceneGraph() = default;
     SceneGraph::SceneGraph(SceneGraph&& other) noexcept = default;
     SceneGraph& SceneGraph::operator=(SceneGraph&& other) noexcept = default;
 
     void SceneGraph::addRoot(const std::string& root_name)
     {
+        std::lock_guard lock(pThreadGuardImpl->nameToNodeMutex);
         if (root_name.empty() || !nameToNode.empty())
         {
             std::osyncstream(std::cout)
-                << "Adding root will not be done "
-                << "because the scene graph already has root or the new root "
-                   "name is empty.\n";
+                << "Adding root will not be done because the scene graph "
+                   "already has root or the new root name is empty.\n";
         }
         else
         {
             auto [child_it, done] = nameToNode.emplace(
                 std::piecewise_construct, std::forward_as_tuple(root_name),
                 std::forward_as_tuple(root_name, this));
+            std::lock_guard lock(pThreadGuardImpl->rootNodeMutex);
             rootNode = &(child_it->second);
         }
     }
@@ -50,6 +54,7 @@ namespace sng
     void SceneGraph::addChild(const std::string& name_child,
                               const std::string& name_parent)
     {
+        std::lock_guard lock(pThreadGuardImpl->nameToNodeMutex);
         if (nameToNode.empty())
         {
             std::osyncstream(std::cout)
@@ -57,10 +62,10 @@ namespace sng
         }
         else if (name_child.empty() || nameToNode.contains(name_child))
         {
-            std::osyncstream(std::cout) << "The name is unique for each node. "
-                                           "Adding child will not be done "
-                                        << "because the given child name is "
-                                           "either empty or already used.\n";
+            std::osyncstream(std::cout)
+                << "The name is unique for each node. Adding child will not be "
+                   "done because the given child name is either empty or "
+                   "already used.\n";
         }
         else
         {
@@ -69,9 +74,8 @@ namespace sng
             {
                 std::osyncstream(std::cout)
                     << "A not empty name of parent is required for adding a "
-                       "child node. "
-                    << "It must be a name of existing node in the scene "
-                       "graph.\n";
+                       "child node. It must be a name of existing node in the "
+                       "scene graph.\n";
             }
             else
             {
@@ -85,7 +89,21 @@ namespace sng
     void SceneGraph::reParent(const std::string& name_child,
                               const std::string& name_new_parent)
     {
-        if (nameToNode.empty())
+        bool is_empty_name_to_node{};
+        std::unordered_map<std::string, sng::SceneNode>::iterator child_it{};
+        std::unordered_map<std::string, sng::SceneNode>::iterator
+            new_parent_it{};
+        std::unordered_map<std::string, sng::SceneNode>::iterator
+            name_to_node_end_it{};
+        {
+            std::lock_guard lock(pThreadGuardImpl->nameToNodeMutex);
+            is_empty_name_to_node = nameToNode.empty();
+            child_it = nameToNode.find(name_child);
+            new_parent_it = nameToNode.find(name_new_parent);
+            name_to_node_end_it = nameToNode.end();
+        }
+
+        if (is_empty_name_to_node)
         {
             std::osyncstream(std::cout)
                 << "Scene graph is empty. First you need to add a root node.\n";
@@ -97,22 +115,19 @@ namespace sng
         }
         else
         {
-            auto child_it = nameToNode.find(name_child);
-            auto new_parent_it = nameToNode.find(name_new_parent);
-            if (child_it == nameToNode.end() ||
-                new_parent_it == nameToNode.end())
+            if (child_it == name_to_node_end_it ||
+                new_parent_it == name_to_node_end_it)
             {
                 std::osyncstream(std::cout)
                     << "Child node and new parent node must be existing in "
-                       "scene graph "
-                    << "with mentioned names.\n";
+                       "scene graph with mentioned names.\n";
             }
             else if (child_it->second.isSubChildBFS(&(new_parent_it->second)))
             {
                 std::osyncstream(std::cout)
                     << "New parent must be not a sub node of child. This means "
-                       "that "
-                    << "it does not appear in all the subtree under child.\n";
+                       "that it does not appear in all the subtree under "
+                       "child.\n";
             }
             else
             {
@@ -123,9 +138,14 @@ namespace sng
 
     void SceneGraph::render() const
     {
-        if (rootNode != nullptr)
+        SceneNode* root_node = nullptr;
         {
-            std::osyncstream(std::cout) << rootNode->render();
+            std::lock_guard lock(pThreadGuardImpl->rootNodeMutex);
+            root_node = rootNode;
+        }
+        if (root_node != nullptr)
+        {
+            std::osyncstream(std::cout) << root_node->render();
         }
         else
         {
@@ -135,7 +155,12 @@ namespace sng
 
     void SceneGraph::update(ISceneNode* observee)
     {
-        for (auto* client : clients)
+        std::list<IClient*> clients_copy{};
+        {
+            std::lock_guard lock(pThreadGuardImpl->clientsMutex);
+            clients_copy = clients;
+        }
+        for (auto* client : clients_copy)
         {
             client->update(observee);
         }
@@ -143,11 +168,13 @@ namespace sng
 
     void SceneGraph::attachClient(IClient* observer)
     {
+        std::lock_guard lock(pThreadGuardImpl->clientsMutex);
         clients.push_back(observer);
     }
 
     void SceneGraph::detachClient(IClient* observer)
     {
+        std::lock_guard lock(pThreadGuardImpl->clientsMutex);
         auto client_it = std::find(clients.begin(), clients.end(), observer);
         if (client_it != clients.end())
         {
