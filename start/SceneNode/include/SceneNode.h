@@ -1,15 +1,12 @@
 #pragma once
 
-#include <array>
+#include "SquareMatrix.hpp"
 #include <memory>
 #include <string>
 #include <unordered_set>
 
 namespace sng
 {
-
-    using matrix4 = std::array<std::array<int, 4>, 4>;
-
     class ISceneNode
     {
        public:
@@ -37,6 +34,7 @@ namespace sng
         void setParent(SceneNode* new_parent);
         void setLocalTransformation(const matrix4& transformation);
         void addChild(SceneNode* child_node);
+        [[nodiscard]] bool isSubChildBFS(SceneNode* node) const;
         void deleteChild(SceneNode* child_node);
         [[nodiscard]] std::string render() override;
         // Custom comparison function comparing only the name attribute

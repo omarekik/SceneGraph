@@ -1,9 +1,10 @@
 project(SceneNode)
 
-#add_subdirectory(tests)
+add_subdirectory(tests)
 
-set(HEADERS
-    ${PROJECT_SOURCE_DIR}/include/SceneNode.h
+set(HEADERS 
+    ${PROJECT_SOURCE_DIR}/include/SceneNode.h 
+    ${PROJECT_SOURCE_DIR}/include/SquareMatrix.hpp
 )
 
 set(SOURCES

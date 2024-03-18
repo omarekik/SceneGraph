@@ -27,7 +27,7 @@ cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=$build_
 cmake --build . --config $build_type_argument
 
 # Run test scripts
-ctest .
+ctest 
 
 # Print help message
 ./main/Start 

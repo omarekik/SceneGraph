@@ -25,11 +25,11 @@ classDiagram
         +notifySceneGraph(): void
     }
     class ThreadGuardImpl {
-        -shared_mutex localTransformationMutex
-        -shared_mutex globalTransformationMutex
-        -mutex nameMutex
-        -mutex childrenMutex
-        -mutex parentMutex
+        +shared_mutex localTransformationMutex
+        +shared_mutex globalTransformationMutex
+        +mutex nameMutex
+        +mutex childrenMutex
+        +mutex parentMutex
     }
     class ISceneGraph {
         <<abstract>> 

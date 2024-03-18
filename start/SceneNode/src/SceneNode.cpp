@@ -2,32 +2,12 @@
 
 #include "SceneGraph.h"
 #include <mutex>
+#include <queue>
 #include <shared_mutex>
 #include <sstream>
 
 namespace sng
 {
-    constexpr matrix4 IDENTITY4{
-        {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}};
-
-    constexpr matrix4 matrix_multiplication(const matrix4& left,
-                                            const matrix4& right)
-    {
-        matrix4 result;
-        for (unsigned int i = 0; i < 4; ++i)
-        {
-            for (unsigned int j = 0; j < 4; ++j)
-            {
-                result[i][j] = 0;
-                for (unsigned int k = 0; k < 4; ++k)
-                {
-                    result[i][j] += left[i][k] * right[k][j];
-                }
-            }
-        }
-        return result;
-    }
-
     struct SceneNode::ThreadGuardImpl final
     {  // not copyable/movable as mutex member
         ThreadGuardImpl() = default;
@@ -39,10 +19,10 @@ namespace sng
             childrenMutex.unlock();
             parentMutex.unlock();
         }
-        ThreadGuardImpl(const ThreadGuardImpl&) = delete;
-        ThreadGuardImpl& operator=(const ThreadGuardImpl&) = delete;
-        ThreadGuardImpl(ThreadGuardImpl&&) = delete;
-        ThreadGuardImpl& operator=(ThreadGuardImpl&&) = delete;
+        ThreadGuardImpl(const ThreadGuardImpl& other) = delete;
+        ThreadGuardImpl& operator=(const ThreadGuardImpl& other) = delete;
+        ThreadGuardImpl(ThreadGuardImpl&& other) = delete;
+        ThreadGuardImpl& operator=(ThreadGuardImpl&& other) = delete;
         std::shared_mutex localTransformationMutex;
         std::shared_mutex globalTransformationMutex;
         std::mutex nameMutex;
@@ -50,12 +30,10 @@ namespace sng
         std::mutex parentMutex;
     };
 
-    // Implementation of SceneNode methods
-
     SceneNode::SceneNode(const std::string& node_name, ISceneGraph* scene_graph)
         : name(node_name),
-          localTransformation(IDENTITY4),
-          globalTransformation(IDENTITY4),
+          localTransformation(matrix4::identity()),
+          globalTransformation(matrix4::identity()),
           sceneGraph(scene_graph),
           pThreadGuardImpl(std::make_unique<ThreadGuardImpl>())
     {
@@ -63,7 +41,6 @@ namespace sng
 
     SceneNode::SceneNode(SceneNode&&) noexcept = default;
     SceneNode& SceneNode::operator=(SceneNode&&) noexcept = default;
-
     SceneNode::~SceneNode() = default;
 
     void SceneNode::setParent(SceneNode* new_parent)
@@ -106,8 +83,7 @@ namespace sng
         if (parent != nullptr)
         {
             matrix4 parent_global = parent->getGlobalTransformation();
-            globalTransformation =
-                matrix_multiplication(parent_global, localTransformation);
+            globalTransformation = parent_global * localTransformation;
         }
         else
         {
@@ -122,6 +98,33 @@ namespace sng
             children.insert(child_node);
         }
         notifySceneGraph();
+    }
+
+    bool SceneNode::isSubChildBFS(SceneNode* node) const
+    {
+        if (node == nullptr)
+        {
+            return false;
+        }
+        std::queue<const SceneNode*> sub_children_queue{};
+        sub_children_queue.push(this);
+        while (!sub_children_queue.empty())
+        {
+            const SceneNode* current = sub_children_queue.front();
+            sub_children_queue.pop();
+            if (current == node)
+            {
+                return true;
+            }
+            // Iterate through the children of the current node to fill the
+            // queue
+            for (SceneNode* child : current->getChildren())
+            {
+                sub_children_queue.push(child);
+            }
+        }
+        return false;  // Return false if the given node is not found in the
+                       // subtree
     }
 
     void SceneNode::deleteChild(SceneNode* child_node)

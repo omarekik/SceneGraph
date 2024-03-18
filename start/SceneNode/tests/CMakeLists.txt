@@ -14,11 +14,6 @@ target_link_libraries(${PROJECT_NAME}
     SceneNode
 )
 
-set_target_properties (${PROJECT_NAME}
-    PROPERTIES
-        CXX_CLANG_TIDY "${clang_tidy_cmd}"
-)
-
 target_compile_options (${PROJECT_NAME} PRIVATE
     ${compiler_warnings}
 )
