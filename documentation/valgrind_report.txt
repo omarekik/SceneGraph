@@ -1,0 +1,359 @@
+==4090461== Helgrind, a thread error detector
+==4090461== Copyright (C) 2007-2017, and GNU GPL'd, by OpenWorks LLP et al.
+==4090461== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==4090461== Command: ./build/main/Start
+==4090461== 
+Client Client1 is updating due to notification from SceneNode: Root1
+Rendering Node: Root1 child of 
+Rendering Node: Node2_1 child of Root1
+Client Client2 is updating due to notification from SceneNode: Root1
+Rendering Node: Root1 child of 
+Rendering Node: Node2_1 child of Root1
+Client Client1 is updating due to notification from SceneNode: Node2_1
+Rendering Node: Node2_1 child of Root1
+Rendering Node: Node2_2 child of Node2_1
+Client Client2 is updating due to notification from SceneNode: Node2_1
+Rendering Node: Node2_1 child of Root1
+Rendering Node: Node2_2 child of Node2_1
+Client Client1 is updating due to notification from SceneNode: Node2_2
+Rendering Node: Node2_2 child of Node2_1
+Rendering Node: Node2_3 child of Node2_2
+Client Client2 is updating due to notification from SceneNode: Node2_2
+Rendering Node: Node2_2 child of Node2_1
+Rendering Node: Node2_3 child of Node2_2
+Client Client1 is updating due to notification from SceneNode: Node2_3
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_4 child of Node2_3
+Client Client2 is updating due to notification from SceneNode: Node2_3
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_4 child of Node2_3
+Client Client1 is updating due to notification from SceneNode: Node2_3
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_5 child of Node2_3
+Rendering Node: Node2_4 child of Node2_3
+Client Client2 is updating due to notification from SceneNode: Node2_3
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_5 child of Node2_3
+Rendering Node: Node2_4 child of Node2_3
+Client Client1 is updating due to notification from SceneNode: Node2_3
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_6 child of Node2_3
+Rendering Node: Node2_5 child of Node2_3
+Rendering Node: Node2_4 child of Node2_3
+Client Client2 is updating due to notification from SceneNode: Node2_3
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_6 child of Node2_3
+Rendering Node: Node2_5 child of Node2_3
+Rendering Node: Node2_4 child of Node2_3
+Client Client1 is updating due to notification from SceneNode: Node2_3
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_7 child of Node2_3
+Rendering Node: Node2_6 child of Node2_3
+Rendering Node: Node2_5 child of Node2_3
+Rendering Node: Node2_4 child of Node2_3
+Client Client2 is updating due to notification from SceneNode: Node2_3
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_7 child of Node2_3
+Rendering Node: Node2_6 child of Node2_3
+Rendering Node: Node2_5 child of Node2_3
+Rendering Node: Node2_4 child of Node2_3
+Client Client1 is updating due to notification from SceneNode: Node2_3
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_8 child of Node2_3
+Rendering Node: Node2_7 child of Node2_3
+Rendering Node: Node2_6 child of Node2_3
+Rendering Node: Node2_5 child of Node2_3
+Rendering Node: Node2_4 child of Node2_3
+Client Client2 is updating due to notification from SceneNode: Node2_3
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_8 child of Node2_3
+Rendering Node: Node2_7 child of Node2_3
+Rendering Node: Node2_6 child of Node2_3
+Rendering Node: Node2_5 child of Node2_3
+Rendering Node: Node2_4 child of Node2_3
+Client Client1 is updating due to notification from SceneNode: Node2_3
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_9 child of Node2_3
+Rendering Node: Node2_8 child of Node2_3
+Rendering Node: Node2_7 child of Node2_3
+Rendering Node: Node2_6 child of Node2_3
+Rendering Node: Node2_5 child of Node2_3
+Rendering Node: Node2_4 child of Node2_3
+Client Client2 is updating due to notification from SceneNode: Node2_3
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_9 child of Node2_3
+Rendering Node: Node2_8 child of Node2_3
+Rendering Node: Node2_7 child of Node2_3
+Rendering Node: Node2_6 child of Node2_3
+Rendering Node: Node2_5 child of Node2_3
+Rendering Node: Node2_4 child of Node2_3
+Client Client1 is updating due to notification from SceneNode: Root1
+Rendering Node: Root1 child of 
+Rendering Node: Node3_1 child of Root1
+Rendering Node: Node2_1 child of Root1
+Rendering Node: Node2_2 child of Node2_1
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_9 child of Node2_3
+Rendering Node: Node2_8 child of Node2_3
+Rendering Node: Node2_7 child of Node2_3
+Rendering Node: Node2_6 child of Node2_3
+Rendering Node: Node2_5 child of Node2_3
+Rendering Node: Node2_4 child of Node2_3
+Client Client3 is updating due to notification from SceneNode: Root1
+Rendering Node: Root1 child of 
+Rendering Node: Node3_1 child of Root1
+Rendering Node: Node2_1 child of Root1
+Rendering Node: Node2_2 child of Node2_1
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_9 child of Node2_3
+Rendering Node: Node2_8 child of Node2_3
+Rendering Node: Node2_7 child of Node2_3
+Rendering Node: Node2_6 child of Node2_3
+Rendering Node: Node2_5 child of Node2_3
+Rendering Node: Node2_4 child of Node2_3
+Client Client1 is updating due to notification from SceneNode: Node3_1
+Rendering Node: Node3_1 child of Root1
+Rendering Node: Node3_2 child of Node3_1
+Client Client3 is updating due to notification from SceneNode: Node3_1
+Rendering Node: Node3_1 child of Root1
+Rendering Node: Node3_2 child of Node3_1
+Client Client1 is updating due to notification from SceneNode: Node3_1
+Rendering Node: Node3_1 child of Root1
+Rendering Node: Node3_2 child of Node3_1
+Client Client1 is updating due to notification from SceneNode: Node3_2
+Rendering Node: Node3_2 child of Node3_1
+Rendering Node: Node3_3 child of Node3_2
+Client Client3 is updating due to notification from SceneNode: Node3_2
+Rendering Node: Node3_2 child of Node3_1
+Rendering Node: Node3_3 child of Node3_2
+Client Client1 is updating due to notification from SceneNode: Node3_2
+Rendering Node: Node3_2 child of Node3_1
+Rendering Node: Node3_3 child of Node3_2
+Client Client1 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_4 child of Node3_3
+Client Client3 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_4 child of Node3_3
+Client Client1 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_4 child of Node3_3
+Client Client1 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client3 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client1 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client1 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_6 child of Node3_3
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client3 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_6 child of Node3_3
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client1 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_6 child of Node3_3
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client1 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_7 child of Node3_3
+Rendering Node: Node3_6 child of Node3_3
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client3 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_7 child of Node3_3
+Rendering Node: Node3_6 child of Node3_3
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client1 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_7 child of Node3_3
+Rendering Node: Node3_6 child of Node3_3
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client1 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_7 child of Node3_3
+Rendering Node: Node3_6 child of Node3_3
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_8 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client3 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_7 child of Node3_3
+Rendering Node: Node3_6 child of Node3_3
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_8 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client1 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_7 child of Node3_3
+Rendering Node: Node3_6 child of Node3_3
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_8 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client1 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_9 child of Node3_3
+Rendering Node: Node3_7 child of Node3_3
+Rendering Node: Node3_6 child of Node3_3
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_8 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client3 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_9 child of Node3_3
+Rendering Node: Node3_7 child of Node3_3
+Rendering Node: Node3_6 child of Node3_3
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_8 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client1 is updating due to notification from SceneNode: Node3_3
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_9 child of Node3_3
+Rendering Node: Node3_7 child of Node3_3
+Rendering Node: Node3_6 child of Node3_3
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_8 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Client Client1 is updating due to notification from SceneNode: Root1
+Rendering Node: Root1 child of 
+Rendering Node: Node1_1 child of Root1
+Rendering Node: Node3_1 child of Root1
+Rendering Node: Node3_2 child of Node3_1
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_9 child of Node3_3
+Rendering Node: Node3_7 child of Node3_3
+Rendering Node: Node3_6 child of Node3_3
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_8 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Rendering Node: Node2_1 child of Root1
+Rendering Node: Node2_2 child of Node2_1
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_9 child of Node2_3
+Rendering Node: Node2_8 child of Node2_3
+Rendering Node: Node2_7 child of Node2_3
+Rendering Node: Node2_6 child of Node2_3
+Rendering Node: Node2_5 child of Node2_3
+Rendering Node: Node2_4 child of Node2_3
+Client Client1 is updating due to notification from SceneNode: Root1
+Rendering Node: Root1 child of 
+Rendering Node: Node1_1 child of Root1
+Rendering Node: Node3_1 child of Root1
+Rendering Node: Node3_2 child of Node3_1
+Rendering Node: Node3_3 child of Node3_2
+Rendering Node: Node3_9 child of Node3_3
+Rendering Node: Node3_7 child of Node3_3
+Rendering Node: Node3_6 child of Node3_3
+Rendering Node: Node3_5 child of Node3_3
+Rendering Node: Node3_8 child of Node3_3
+Rendering Node: Node3_4 child of Node3_3
+Rendering Node: Node2_1 child of Root1
+Rendering Node: Node2_2 child of Node2_1
+Rendering Node: Node2_3 child of Node2_2
+Rendering Node: Node2_9 child of Node2_3
+Rendering Node: Node2_8 child of Node2_3
+Rendering Node: Node2_7 child of Node2_3
+Rendering Node: Node2_6 child of Node2_3
+Rendering Node: Node2_5 child of Node2_3
+Rendering Node: Node2_4 child of Node2_3
+Client Client1 is updating due to notification from SceneNode: Node1_1
+Rendering Node: Node1_1 child of Root1
+Rendering Node: Node1_2 child of Node1_1
+Client Client1 is updating due to notification from SceneNode: Node1_1
+Rendering Node: Node1_1 child of Root1
+Rendering Node: Node1_2 child of Node1_1
+Client Client1 is updating due to notification from SceneNode: Node1_2
+Rendering Node: Node1_2 child of Node1_1
+Rendering Node: Node1_3 child of Node1_2
+Client Client1 is updating due to notification from SceneNode: Node1_2
+Rendering Node: Node1_2 child of Node1_1
+Rendering Node: Node1_3 child of Node1_2
+Client Client1 is updating due to notification from SceneNode: Node1_3
+Rendering Node: Node1_3 child of Node1_2
+Rendering Node: Node1_4 child of Node1_3
+Client Client1 is updating due to notification from SceneNode: Node1_3
+Rendering Node: Node1_3 child of Node1_2
+Rendering Node: Node1_4 child of Node1_3
+Client Client1 is updating due to notification from SceneNode: Node1_3
+Rendering Node: Node1_3 child of Node1_2
+Rendering Node: Node1_5 child of Node1_3
+Rendering Node: Node1_4 child of Node1_3
+Client Client1 is updating due to notification from SceneNode: Node1_3
+Rendering Node: Node1_3 child of Node1_2
+Rendering Node: Node1_5 child of Node1_3
+Rendering Node: Node1_4 child of Node1_3
+Client Client1 is updating due to notification from SceneNode: Node1_3
+Rendering Node: Node1_3 child of Node1_2
+Rendering Node: Node1_6 child of Node1_3
+Rendering Node: Node1_5 child of Node1_3
+Rendering Node: Node1_4 child of Node1_3
+Client Client1 is updating due to notification from SceneNode: Node1_3
+Rendering Node: Node1_3 child of Node1_2
+Rendering Node: Node1_6 child of Node1_3
+Rendering Node: Node1_5 child of Node1_3
+Rendering Node: Node1_4 child of Node1_3
+Client Client1 is updating due to notification from SceneNode: Node1_3
+Rendering Node: Node1_3 child of Node1_2
+Rendering Node: Node1_7 child of Node1_3
+Rendering Node: Node1_6 child of Node1_3
+Rendering Node: Node1_5 child of Node1_3
+Rendering Node: Node1_4 child of Node1_3
+Client Client1 is updating due to notification from SceneNode: Node1_3
+Rendering Node: Node1_3 child of Node1_2
+Rendering Node: Node1_7 child of Node1_3
+Rendering Node: Node1_6 child of Node1_3
+Rendering Node: Node1_5 child of Node1_3
+Rendering Node: Node1_4 child of Node1_3
+Client Client1 is updating due to notification from SceneNode: Node1_3
+Rendering Node: Node1_3 child of Node1_2
+Rendering Node: Node1_8 child of Node1_3
+Rendering Node: Node1_7 child of Node1_3
+Rendering Node: Node1_6 child of Node1_3
+Rendering Node: Node1_5 child of Node1_3
+Rendering Node: Node1_4 child of Node1_3
+Client Client1 is updating due to notification from SceneNode: Node1_3
+Rendering Node: Node1_3 child of Node1_2
+Rendering Node: Node1_8 child of Node1_3
+Rendering Node: Node1_7 child of Node1_3
+Rendering Node: Node1_6 child of Node1_3
+Rendering Node: Node1_5 child of Node1_3
+Rendering Node: Node1_4 child of Node1_3
+Client Client1 is updating due to notification from SceneNode: Node1_3
+Rendering Node: Node1_3 child of Node1_2
+Rendering Node: Node1_9 child of Node1_3
+Rendering Node: Node1_8 child of Node1_3
+Rendering Node: Node1_7 child of Node1_3
+Rendering Node: Node1_6 child of Node1_3
+Rendering Node: Node1_5 child of Node1_3
+Rendering Node: Node1_4 child of Node1_3
+Client Client1 is updating due to notification from SceneNode: Node1_3
+Rendering Node: Node1_3 child of Node1_2
+Rendering Node: Node1_9 child of Node1_3
+Rendering Node: Node1_8 child of Node1_3
+Rendering Node: Node1_7 child of Node1_3
+Rendering Node: Node1_6 child of Node1_3
+Rendering Node: Node1_5 child of Node1_3
+Rendering Node: Node1_4 child of Node1_3
+End of demo. 
+==4090461== 
+==4090461== Use --history-level=approx or =none to gain increased speed, at
+==4090461== the cost of reduced accuracy of conflicting-access information
+==4090461== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 158 from 7)
+--4090461-- 
+--4090461-- used_suppression:    158 helgrind-glibc2X-005 /usr/libexec/valgrind/default.supp:947
+==4090461== 
+==4090461== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 158 from 7)

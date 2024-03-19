@@ -8,14 +8,14 @@ classDiagram
         +render()*: string
     }
     class SceneNode {
-        -NodeThreadImpl* pNodeThreadImpl
         -string name
         -matrix4 localTransformation
         -matrix4 globalTransformation
         -SceneNode* parent
         -unordered_set~SceneNode*~ children
         -ISceneGraph* sceneGraph
-        +SceneNode(const string& node_name, ISceneGraph* scene_graph)
+        -NodeThreadImpl* pNodeThreadImpl
+        +SceneNode(const string& node_name, ISceneGraph* scene_graph, SceneNode* parent)
         +getName(): string
         +setParent(newParent: SceneNode*): void
         +setLocalTransformation(transformation: matrix4): void
@@ -31,11 +31,6 @@ classDiagram
         +mutex childrenMutex
         +mutex parentMutex
     }
-    class GraphThreadImpl {
-        +mutex nameToNodeMutex
-        +mutex rootNodeMutex
-        +mutex clientsMutex
-    }
     class ISceneGraph {
         <<abstract>> 
         +update(observee: ISceneNode*)*: void
@@ -48,12 +43,18 @@ classDiagram
         -unordered_map~string, SceneNode~ nameToNode
         -SceneNode* rootNode
         -list~IClient*~ clients
+        -GraphThreadImpl* pGraphThreadImpl
         +addRoot(root_name: string): void
         +addChild(name_child: string, name_parent: string): void
         +render(): void
         +update(observee: ISceneNode*): void
         +attachClient(observer: IClient*): void
         +detachClient(observer: IClient*): void
+    }
+    class GraphThreadImpl {
+        +mutex nameToNodeMutex
+        +mutex rootNodeMutex
+        +mutex clientsMutex
     }
     class IClient {
         <<abstract>> 
