@@ -24,7 +24,7 @@ namespace sng
 
     void SceneGraph::addRoot(const std::string& root_name)
     {
-        std::lock_guard lock(pGraphThreadImpl->nameToNodeMutex);
+        std::lock_guard name_to_node_lock(pGraphThreadImpl->nameToNodeMutex);
         if (root_name.empty() || !nameToNode.empty())
         {
             std::osyncstream(std::cout)
@@ -38,7 +38,7 @@ namespace sng
             auto [child_it, done] = nameToNode.emplace(
                 std::piecewise_construct, std::forward_as_tuple(root_name),
                 std::forward_as_tuple(root_name, this, nullptr));
-            std::lock_guard lock(pGraphThreadImpl->rootNodeMutex);
+            std::lock_guard root_node_lock(pGraphThreadImpl->rootNodeMutex);
             rootNode = &(child_it->second);
         }
     }
@@ -46,7 +46,7 @@ namespace sng
     void SceneGraph::addChild(const std::string& name_child,
                               const std::string& name_parent)
     {
-        std::lock_guard lock(pGraphThreadImpl->nameToNodeMutex);
+        std::lock_guard name_to_node_lock(pGraphThreadImpl->nameToNodeMutex);
         if (nameToNode.empty())
         {
             std::osyncstream(std::cout)
@@ -85,13 +85,14 @@ namespace sng
                               const std::string& name_new_parent)
     {
         bool is_empty_name_to_node{};
-        std::unordered_map<std::string, sng::SceneNode>::iterator child_it{};
-        std::unordered_map<std::string, sng::SceneNode>::iterator
-            new_parent_it{};
-        std::unordered_map<std::string, sng::SceneNode>::iterator
-            name_to_node_end_it{};
+        using SceneNodeIt =
+            std::unordered_map<std::string, sng::SceneNode>::iterator;
+        SceneNodeIt child_it{};
+        SceneNodeIt new_parent_it{};
+        SceneNodeIt name_to_node_end_it{};
         {
-            std::lock_guard lock(pGraphThreadImpl->nameToNodeMutex);
+            std::lock_guard name_to_node_lock(
+                pGraphThreadImpl->nameToNodeMutex);
             is_empty_name_to_node = nameToNode.empty();
             child_it = nameToNode.find(name_child);
             new_parent_it = nameToNode.find(name_new_parent);
@@ -106,7 +107,9 @@ namespace sng
         else if (name_child.empty() || name_new_parent.empty())
         {
             std::osyncstream(std::cout)
-                << "Child name and new parent name must be not empty string.\n";
+                << "Child name and new parent name must be not empty string. "
+                   "Actual input is: name_child = "
+                << name_child << ".\n";
         }
         else
         {
@@ -115,14 +118,19 @@ namespace sng
             {
                 std::osyncstream(std::cout)
                     << "Child node and new parent node must be existing in "
-                       "scene graph with mentioned names.\n";
+                       "scene graph with mentioned names. Actual input is: "
+                       "name_child = "
+                    << name_child << ", name_new_parent = " << name_new_parent
+                    << ".\n";
             }
             else if (child_it->second.isSubChildBFS(&(new_parent_it->second)))
             {
                 std::osyncstream(std::cout)
                     << "New parent must be not a sub node of child. This means "
                        "that it does not appear in all the subtree under "
-                       "child.\n";
+                       "child. Actual input is: name_child = "
+                    << name_child << ", name_new_parent = " << name_new_parent
+                    << ".\n";
             }
             else
             {
@@ -135,7 +143,7 @@ namespace sng
     {
         SceneNode* root_node = nullptr;
         {
-            std::lock_guard lock(pGraphThreadImpl->rootNodeMutex);
+            std::lock_guard root_node_lock(pGraphThreadImpl->rootNodeMutex);
             root_node = rootNode;
         }
         if (root_node != nullptr)
@@ -152,7 +160,7 @@ namespace sng
     {
         std::list<IClient*> clients_copy{};
         {
-            std::lock_guard lock(pGraphThreadImpl->clientsMutex);
+            std::lock_guard clients_lock(pGraphThreadImpl->clientsMutex);
             clients_copy = clients;
         }
         for (auto* client : clients_copy)
@@ -163,13 +171,13 @@ namespace sng
 
     void SceneGraph::attachClient(IClient* observer)
     {
-        std::lock_guard lock(pGraphThreadImpl->clientsMutex);
+        std::lock_guard clients_lock(pGraphThreadImpl->clientsMutex);
         clients.push_back(observer);
     }
 
     void SceneGraph::detachClient(IClient* observer)
     {
-        std::lock_guard lock(pGraphThreadImpl->clientsMutex);
+        std::lock_guard clients_lock(pGraphThreadImpl->clientsMutex);
         auto client_it = std::find(clients.begin(), clients.end(), observer);
         if (client_it != clients.end())
         {
