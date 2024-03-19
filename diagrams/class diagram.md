@@ -1,14 +1,14 @@
 ```mermaid
 classDiagram
-    note for SceneNode "Observed by SceneGraph and mutexes are encapsulated in ThreadGuardImpl"
-    note for SceneGraph "Observed by Client"
+    note for SceneNode "Observed by SceneGraph and mutexes are encapsulated in NodeThreadImpl"
+    note for SceneGraph "Observed by Client and mutexes are encapsulated in GraphThreadImpl"
     class ISceneNode {
         <<abstract>> 
         +getName()*: string
         +render()*: string
     }
     class SceneNode {
-        -ThreadGuardImpl* pThreadGuardImpl
+        -NodeThreadImpl* pNodeThreadImpl
         -string name
         -matrix4 localTransformation
         -matrix4 globalTransformation
@@ -24,12 +24,17 @@ classDiagram
         +render(): string
         +notifySceneGraph(): void
     }
-    class ThreadGuardImpl {
+    class NodeThreadImpl {
         +shared_mutex localTransformationMutex
         +shared_mutex globalTransformationMutex
         +mutex nameMutex
         +mutex childrenMutex
         +mutex parentMutex
+    }
+    class GraphThreadImpl {
+        +mutex nameToNodeMutex
+        +mutex rootNodeMutex
+        +mutex clientsMutex
     }
     class ISceneGraph {
         <<abstract>> 
@@ -64,10 +69,11 @@ classDiagram
     }
     
     SceneNode ..|> ISceneNode
-    SceneNode *-- "1" ThreadGuardImpl
-    SceneNode o-- "0..*" ISceneNode: Parent/Children
+    SceneNode *-- "1" NodeThreadImpl
+    SceneNode o-- "1..*" SceneNode: Parent/Children
     SceneNode o-- "1" ISceneGraph
     ISceneGraph <|.. SceneGraph
+    SceneGraph *-- "1" GraphThreadImpl
     SceneGraph *-- "0..*" SceneNode
     SceneGraph o-- "1" ISceneNode: root
     SceneGraph o-- "0..*" IClient

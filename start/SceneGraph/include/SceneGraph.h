@@ -5,7 +5,6 @@
 #include <list>
 #include <unordered_map>
 
-// TODO add ThreadGuardImpl
 namespace sng
 {
     class ISceneGraph
@@ -36,8 +35,7 @@ namespace sng
         void addRoot(const std::string& root_name) override;
         void addChild(const std::string& name_child,
                       const std::string& name_parent) override;
-        // TODO reParent(nodeName, newParentName), getNode(node_name) and
-        // delete(node_name)
+        // TODO  delete(node_name)
         void reParent(const std::string& name_child,
                       const std::string& name_new_parent) override;
         void render() const;
@@ -51,7 +49,7 @@ namespace sng
         std::unordered_map<std::string, SceneNode> nameToNode{};
         SceneNode* rootNode = nullptr;
         std::list<IClient*> clients{};
-        struct ThreadGuardImpl;
-        std::unique_ptr<ThreadGuardImpl> pThreadGuardImpl;
+        struct GraphThreadImpl;
+        std::unique_ptr<GraphThreadImpl> pGraphThreadImpl;
     };
 }  // namespace sng

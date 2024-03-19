@@ -8,21 +8,8 @@
 
 namespace sng
 {
-    struct SceneNode::ThreadGuardImpl final
-    {  // not copyable/movable as mutex member
-        ThreadGuardImpl() = default;
-        ~ThreadGuardImpl()
-        {
-            localTransformationMutex.unlock();
-            globalTransformationMutex.unlock();
-            nameMutex.unlock();
-            childrenMutex.unlock();
-            parentMutex.unlock();
-        }
-        ThreadGuardImpl(const ThreadGuardImpl& other) = delete;
-        ThreadGuardImpl& operator=(const ThreadGuardImpl& other) = delete;
-        ThreadGuardImpl(ThreadGuardImpl&& other) = delete;
-        ThreadGuardImpl& operator=(ThreadGuardImpl&& other) = delete;
+    struct SceneNode::NodeThreadImpl final
+    {
         std::shared_mutex localTransformationMutex;
         std::shared_mutex globalTransformationMutex;
         std::mutex nameMutex;
@@ -30,12 +17,14 @@ namespace sng
         std::mutex parentMutex;
     };
 
-    SceneNode::SceneNode(const std::string& node_name, ISceneGraph* scene_graph)
+    SceneNode::SceneNode(const std::string& node_name, ISceneGraph* scene_graph,
+                         SceneNode* parent)
         : name(node_name),
           localTransformation(matrix4::identity()),
           globalTransformation(matrix4::identity()),
+          parent(parent),
           sceneGraph(scene_graph),
-          pThreadGuardImpl(std::make_unique<ThreadGuardImpl>())
+          pNodeThreadImpl(std::make_unique<NodeThreadImpl>())
     {
     }
 
@@ -48,7 +37,7 @@ namespace sng
         if (new_parent != nullptr)
         {
             {
-                std::lock_guard lock(pThreadGuardImpl->parentMutex);
+                std::lock_guard lock(pNodeThreadImpl->parentMutex);
                 if (parent != nullptr)
                 {
                     parent->deleteChild(
@@ -65,7 +54,7 @@ namespace sng
     void SceneNode::setLocalTransformation(const matrix4& transformation)
     {
         {
-            std::unique_lock lock(pThreadGuardImpl->localTransformationMutex);
+            std::unique_lock lock(pNodeThreadImpl->localTransformationMutex);
             localTransformation = transformation;
         }
         notifySceneGraph();
@@ -73,12 +62,12 @@ namespace sng
 
     void SceneNode::updateGlobalTransformation()
     {
-        std::unique_lock parent_lock(pThreadGuardImpl->parentMutex,
+        std::unique_lock parent_lock(pNodeThreadImpl->parentMutex,
                                      std::defer_lock);
-        std::unique_lock local_lock(pThreadGuardImpl->localTransformationMutex,
+        std::unique_lock local_lock(pNodeThreadImpl->localTransformationMutex,
                                     std::defer_lock);
-        std::shared_lock global_lock(
-            pThreadGuardImpl->globalTransformationMutex, std::defer_lock);
+        std::shared_lock global_lock(pNodeThreadImpl->globalTransformationMutex,
+                                     std::defer_lock);
         std::scoped_lock lock(parent_lock, local_lock, global_lock);
         if (parent != nullptr)
         {
@@ -94,7 +83,7 @@ namespace sng
     void SceneNode::addChild(SceneNode* child_node)
     {
         {
-            std::lock_guard<std::mutex> lock(pThreadGuardImpl->childrenMutex);
+            std::lock_guard<std::mutex> lock(pNodeThreadImpl->childrenMutex);
             children.insert(child_node);
         }
         notifySceneGraph();
@@ -130,7 +119,7 @@ namespace sng
     void SceneNode::deleteChild(SceneNode* child_node)
     {
         {
-            std::lock_guard<std::mutex> lock(pThreadGuardImpl->childrenMutex);
+            std::lock_guard<std::mutex> lock(pNodeThreadImpl->childrenMutex);
             auto child_it = children.find(child_node);
             if (child_it != children.end())
             {
@@ -145,7 +134,16 @@ namespace sng
         // Render using globalTransformation
         updateGlobalTransformation();
         std::stringstream string_stream{};
-        string_stream << "Rendering Node: " << getName() << '\n';
+        std::string parent_name{};
+        {
+            std::lock_guard lock(pNodeThreadImpl->parentMutex);
+            if (parent != nullptr)
+            {
+                parent_name = parent->getName();
+            }
+        }
+        string_stream << "Rendering Node: " << getName() << " child of "
+                      << parent_name << '\n';
         for (const auto& child : getChildren())
         {
             string_stream << child->render();
@@ -155,14 +153,14 @@ namespace sng
 
     matrix4 SceneNode::getGlobalTransformation() const
     {
-        std::unique_lock lock(pThreadGuardImpl->globalTransformationMutex);
+        std::unique_lock lock(pNodeThreadImpl->globalTransformationMutex);
         return globalTransformation;
     }
 
     void SceneNode::setName(const std::string& node_name)
     {
         {
-            std::lock_guard<std::mutex> lock(pThreadGuardImpl->nameMutex);
+            std::lock_guard<std::mutex> lock(pNodeThreadImpl->nameMutex);
             name = node_name;
         }
         notifySceneGraph();
@@ -170,13 +168,13 @@ namespace sng
 
     std::string SceneNode::getName() const
     {
-        std::lock_guard<std::mutex> lock(pThreadGuardImpl->nameMutex);
+        std::lock_guard<std::mutex> lock(pNodeThreadImpl->nameMutex);
         return name;
     }
 
     std::unordered_set<SceneNode*> SceneNode::getChildren() const
     {
-        std::lock_guard<std::mutex> lock(pThreadGuardImpl->childrenMutex);
+        std::lock_guard<std::mutex> lock(pNodeThreadImpl->childrenMutex);
         return children;
     }
 
